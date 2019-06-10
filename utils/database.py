@@ -45,15 +45,17 @@ class database():
             raise
 
     def set(self,*args):
-        
-        sql = 'INSERT INTO snippets VALUES (null,"{title}", "{desc}", "{content}",CURRENT_TIMESTAMP)'
 
+        sql = ''' INSERT INTO snippets
+                  VALUES (null, ?, ?, ?, CURRENT_TIMESTAMP)'''
         try:
-            self.conn.execute(sql.format(title=args[0],desc=args[1], content=args[2]))
+            self.conn.execute(sql, (args[0],args[1],args[2]))
         except OperationalError:
             raise
         else:
             self.conn.commit()
+
+
 
     def update(self,*args):
 
