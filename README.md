@@ -20,3 +20,6 @@ You can create a build.bat or build.sh with this content.
 
 Now copy storage folder inside dist folder and voila!
 
+
+
+![image](screen.gif)
