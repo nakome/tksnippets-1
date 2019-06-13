@@ -1,5 +1,8 @@
 from tkinter import *
+from tkinter.ttk import *
 from tkinter import scrolledtext
+
+from utils.tktext import Tktext
 
 # import startpage if cancel
 from modules import startpage as s
@@ -26,22 +29,22 @@ class snippets(Frame):
 
         self.e = Entry(self, width = 30)
         self.e.insert(END, data[1])
-        self.e.grid(row = 1, column = 0,padx=10,ipady=5, sticky="nw")
+        self.e.grid(row = 1, column = 0,padx=10,ipady=3, sticky="nw")
 
         desc = Label(self, text = "Description")
         desc.grid(row = 2, column = 0,padx=10,sticky="nw")
 
         self.edesc = Entry(self, width = 30)
         self.edesc.insert(END, data[2])
-        self.edesc.grid(row = 3, column = 0,padx=10,ipady=5, sticky="nw")
+        self.edesc.grid(row = 3, column = 0,padx=10,ipady=3, sticky="nw")
 
         content = Label(self, text = "Snippet")
         content.grid(row = 4, column = 0,padx=10, sticky="nw")
 
-        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 10,insertbackground="white",bg="black",fg="cyan")
+        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 10)
         self.txt.grid( row = 5, column=0,padx=10, sticky="nw")
-        # set scrolledtext content
-        self.txt.insert(INSERT, data[3])
+        text = Tktext(master,self.txt)
+        text.paste(data[3])
 
         btn = Button(self, text = "Save", width=8,  command=lambda: self.update_snippet() )
         btn.grid(row=6, column=0, padx=10,  pady=10, sticky="nw")

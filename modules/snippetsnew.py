@@ -1,6 +1,10 @@
 from tkinter import *
+from tkinter import font
+from tkinter.ttk import *
 from tkinter import scrolledtext
 from tkinter import messagebox
+
+from utils.tktext import Tktext
 
 # import startpage if cancel
 from modules import startpage as s
@@ -20,20 +24,21 @@ class snippetsnew(Frame):
         title = Label(self, text = "Title")
         title.grid(row = 0, column = 0,padx=10, sticky="nw")
 
-        self.e = Entry(self, width = 20)
-        self.e.grid(row = 1, column = 0, padx=10,ipady=5,sticky="nw")
+        self.e = Entry(self, width = 30)
+        self.e.grid(row = 1, column = 0, padx=10,ipady=3,sticky="nw")
 
         self.desc = Label(self, text = "Description")
         self.desc.grid(row = 2, column = 0, padx=10,sticky="nw")
 
-        self.edesc = Entry(self, width = 20)
-        self.edesc.grid(row = 3, column = 0,padx=10,ipady=5, sticky="nw")
+        self.edesc = Entry(self, width = 30)
+        self.edesc.grid(row = 3, column = 0,padx=10,ipady=3, sticky="nw")
 
         self.content = Label(self, text = "Snippet")
         self.content.grid(row = 4, column = 0,padx=10, sticky="nw")
 
-        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 10,insertbackground="white",bg="black",fg="cyan")
-        self.txt.grid( row = 5, column=0, padx=10, sticky="nw")
+        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 10)
+        self.txt.grid( row = 5, column=0, padx=10,ipady=3, sticky="nw")
+        text = Tktext(master,self.txt)
 
         btn = Button(self, text = "Save", width=8,command=lambda: self.save_snippet() )
         btn.grid(row=6, column=0, padx=10,  pady=10, sticky="nw")

@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import ttk
 
 from modules.startpage import startpage
 from modules.snippetsnew import snippetsnew
@@ -12,11 +11,6 @@ class maincontent(Tk):
     def __init__(self):
     	# class is a frame
         Tk.__init__(self)
-
-        Tk.style = ttk.Style()
-        #('clam', 'alt', 'default', 'classic')
-        Tk.style.theme_use("clam")
-
         # title
         self.title("Snippets app")
         # init frame
