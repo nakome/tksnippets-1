@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import font
-from tkinter.ttk import *
 from tkinter import scrolledtext
 from tkinter import messagebox
+from tkinter import ttk
 
 from utils.tktext import Tktext
 
@@ -36,15 +36,16 @@ class snippetsnew(Frame):
         self.content = Label(self, text = "Snippet")
         self.content.grid(row = 4, column = 0,padx=10, sticky="nw")
 
-        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 10)
+        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 15)
         self.txt.grid( row = 5, column=0, padx=10,ipady=3, sticky="nw")
         text = Tktext(master,self.txt)
 
-        btn = Button(self, text = "Save", width=8,command=lambda: self.save_snippet() )
+        btn = ttk.Button(self, text = "Save", width=8,command=lambda: self.save_snippet() )
         btn.grid(row=6, column=0, padx=10,  pady=10, sticky="nw")
 
-        btnCancel = Button(self, text = "Cancel", width=8, command=lambda: master.switch_frame(s.startpage))
+        btnCancel = ttk.Button(self, text = "Cancel", width=8, command=lambda: master.switch(s.startpage))
         btnCancel.grid(row=6, column=0,  padx=80,  pady=10, sticky="nw")
+
 
     def save_snippet(self):
         t = self.e.get()
@@ -57,4 +58,4 @@ class snippetsnew(Frame):
         else:
             if t and d:
                 database().set(t,d,c)
-                self.master.switch_frame(s.startpage)
+                self.master.switch(s.startpage)

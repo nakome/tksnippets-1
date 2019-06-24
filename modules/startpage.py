@@ -24,9 +24,8 @@ class startpage(Frame):
         self.e.pack(side="top", fill="x")
         self.e.bind('<KeyPress>', self.search_by_title)
 
-
         # create treeview like table
-        self.tree = ttk.Treeview(self, columns=("uid", "title", "desc","date"))
+        self.tree = ttk.Treeview(self, height=20,columns=("uid", "title", "desc","date"))
         self.tree["show"] = "headings"
         self.tree.heading("uid", text="Uid")
         self.tree.column("uid",minwidth=50,width=50)
@@ -36,6 +35,7 @@ class startpage(Frame):
         self.tree.column("desc",minwidth=240,width=240)
         self.tree.heading("date", text="Date")
         self.tree.column("date",minwidth=50,width=120)
+
         # insert database items
         for item in database().get_all(): 
             self.tree.insert("", "end", values=(item[0],item[1], item[2],item[4]))
@@ -49,7 +49,7 @@ class startpage(Frame):
     # search title
     def search_by_title(self,event):
         if event.char == '\r':
-            if len(self.e.get()) > 3:
+            if len(self.e.get()) > 2:
                 title = self.e.get()
                 # clear tree
                 for i in self.tree.get_children(): self.tree.delete(i)
@@ -73,4 +73,4 @@ class startpage(Frame):
             # get and save on master uid
             self.master.uid = int(data[0])
             # change frame to snippets
-            self.master.switch_frame(snippets)
+            self.master.switch(snippets)

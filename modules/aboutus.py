@@ -1,5 +1,6 @@
 from tkinter import *
 import webbrowser
+from tkinter import ttk
 
 # import startpage if cancel
 from modules import startpage as s
@@ -22,8 +23,9 @@ class aboutus(Frame):
         url = Label(self, width=50, text="Github source", fg="blue", cursor="hand2")
         url.bind("<Button-1>", lambda e: self.callback("https://github.com/monchovarela/tksnippets"))
         url.pack(pady=10,anchor="nw")
-        btn = Button(self, text = "Back", width=8, command=lambda: master.switch_frame(s.startpage))
+        btn = ttk.Button(self, text = "Back", width=8, command=lambda: master.switch(s.startpage))
         btn.pack(padx=10,pady=10,anchor="w")
+
 
     def callback(self,url):
         webbrowser.open_new(url)

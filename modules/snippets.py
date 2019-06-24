@@ -1,6 +1,6 @@
 from tkinter import *
-from tkinter.ttk import *
 from tkinter import scrolledtext
+from tkinter import ttk
 
 from utils.tktext import Tktext
 
@@ -41,19 +41,20 @@ class snippets(Frame):
         content = Label(self, text = "Snippet")
         content.grid(row = 4, column = 0,padx=10, sticky="nw")
 
-        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 10)
+        self.txt = scrolledtext.ScrolledText(self, width = 60, height = 15)
         self.txt.grid( row = 5, column=0,padx=10, sticky="nw")
         text = Tktext(master,self.txt)
         text.paste(data[3])
 
-        btn = Button(self, text = "Save", width=8,  command=lambda: self.update_snippet() )
+        btn = ttk.Button(self, text = "Save", width=8,  command=lambda: self.update_snippet() )
         btn.grid(row=6, column=0, padx=10,  pady=10, sticky="nw")
 
-        btnCancel = Button(self, text = "Cancel", width=8,  command=lambda: master.switch_frame(s.startpage))
+        btnCancel = ttk.Button(self, text = "Cancel", width=8,  command=lambda: master.switch(s.startpage))
         btnCancel.grid(row=6, column=0,  padx=80,  pady=10, sticky="nw")
 
-        btnDel = Button(self, text = "Delete", width=8,   command=lambda: self.remove_snippet())
+        btnDel = ttk.Button(self, text = "Delete", width=8,   command=lambda: self.remove_snippet())
         btnDel.grid(row=6, column=0, padx=10, pady=10, sticky="se")
+
 
     # update snippet
     def update_snippet(self):
@@ -67,11 +68,11 @@ class snippets(Frame):
         else:
             if t and d:
                 database().update(self.uid,t,d,c)
-                self.master.switch_frame(s.startpage)
+                self.master.switch(s.startpage)
 
     # remove snippet
     def remove_snippet(self):
         print("Delete snippet {}".format(self.uid))
         if self.uid:
             database().delele_uid(self.uid)
-            self.master.switch_frame(s.startpage)
+            self.master.switch(s.startpage)
