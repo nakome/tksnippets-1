@@ -1,82 +1,70 @@
 from sqlite3 import *
 import os
- 
-class database():
+
+
+class database:
 
     def __init__(self):
-        self.conn = connect("./storage/database.db")
-    
-    def create(self):
-        sql = "CREATE TABLE snippets ( \
-            uid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, \
-            title TEXT DEFAULT 'the tittle', \
-            desc TEXT, content TEXT, \
-            date INTEGER DEFAULT CURRENT_TIMESTAMP \
-        )"
-
-        try:
-            self.conn.execute(sql)
-        except OperationalError:
-            pass
- 
+        self.conn = connect("./storage/data.db")
 
     def get_all(self):
-        sql = 'SELECT * FROM snippets'
+        sql = "SELECT uid,title,description,content,created,category FROM snippets"
         try:
             results = self.conn.execute(sql)
             return results.fetchall()
-        except OperationalError:
-            raise
+        except OperationalError as e:
+            raise e
 
-    def get_by_uid(self,uid):
-        sql = 'SELECT * FROM snippets WHERE uid={}'.format(uid)
+    def get_by_uid(self, uid):
+        sql = 'SELECT uid, title, description, content, created, category FROM snippets WHERE uid = ?'
         try:
-            results = self.conn.execute(sql)
+            # Utiliza consulta parametrizada para evitar inyección de SQL
+            results = self.conn.execute(sql, (uid,))
             return results.fetchone()
-        except OperationalError:
-            raise
+        except OperationalError as e:
+            raise e
 
-    def find_by_title(self,title):
-        sql = 'SELECT * FROM snippets WHERE title like "%{}%"'.format(title)
+
+    def find_by_title(self, txt):
+        sql = 'SELECT uid, title, description, content, updated, category FROM snippets WHERE title LIKE ? OR category LIKE ?'
         try:
-            results = self.conn.execute(sql)
+            results = self.conn.execute(sql, ('%' + txt + '%', '%' + txt + '%'))
             return results.fetchall()
         except OperationalError:
             raise
 
-    def set(self,*args):
 
-        sql = ''' INSERT INTO snippets
-                  VALUES (null, ?, ?, ?, CURRENT_TIMESTAMP)'''
+    def set(self, *args):
+
+        sql = """ INSERT INTO snippets
+                  VALUES (null, ?, ?, ?, CURRENT_TIMESTAMP, ?)"""
         try:
-            self.conn.execute(sql, (args[0],args[1],args[2]))
-        except OperationalError:
-            raise
+            self.conn.execute(sql, (args[0], args[1], args[2], args[3]))
+        except OperationalError as e:
+            raise e
         else:
             self.conn.commit()
 
+    def update(self, *args):
 
-
-    def update(self,*args):
-
-        sql = ''' UPDATE snippets
+        sql = """ UPDATE snippets
                   SET title = ? ,
-                      desc = ? ,
+                      description = ? ,
                       content = ?,
-                      date = CURRENT_TIMESTAMP
-                  WHERE uid = ?'''
+                      category = ?,
+                      updated = CURRENT_TIMESTAMP
+                  WHERE uid = ?"""
         try:
-            self.conn.execute(sql, (args[1],args[2],args[3],args[0]))
-        except OperationalError:
-            raise
+            self.conn.execute(sql, (args[1], args[2], args[3], args[4], args[0]))
+        except OperationalError as e:
+            raise e
         else:
             self.conn.commit()
 
-    def delele_uid(self,uid):
-        sql = 'DELETE FROM snippets WHERE uid = {}'.format(uid)
+    def delete_uid(self, uid):
+        sql = 'SELECT uid, title, description, content, created, category FROM snippets WHERE uid = ?'
         try:
-            self.conn.execute(sql)
-        except OperationalError:
-            raise
-        else:
-            self.conn.commit()
+            results = self.conn.execute(sql, (uid,))
+            return results.fetchone()
+        except OperationalError as e:
+            raise e
